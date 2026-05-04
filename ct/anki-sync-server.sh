@@ -30,7 +30,12 @@ function update_script() {
 
   msg_info "Stopping ${APP}"
   systemctl stop anki-sync-server
-  msg_ok "Stopped Services"
+  msg_ok "Stopped ${APP}"
+
+  msg_info "Updating LXC"
+  $STD apt update
+  $STD apt upgrade -y
+  msg_info "Updated LXC"
 
   msg_info "Updating ${APP}"
   $STD runuser -u anki -- \

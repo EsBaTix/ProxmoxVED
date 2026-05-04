@@ -4041,7 +4041,6 @@ start() {
 # ------------------------------------------------------------------------------
 build_container() {
   #  if [ "$VERBOSE" == "yes" ]; then set -x; fi
-  set -x
 
   NET_STRING="-net0 name=eth0,bridge=${BRG:-vmbr0}"
 
@@ -4114,9 +4113,9 @@ build_container() {
   TEMP_DIR=$(mktemp -d)
   pushd "$TEMP_DIR" >/dev/null
   if [ "$var_os" == "alpine" ]; then
-    export FUNCTIONS_FILE_PATH="$(curl -fsSL "$COMMUNITY_SCRIPTS_URL/misc/alpine-install.func")"
+    export FUNCTIONS_FILE_PATH="$(curl -vfsSL "$COMMUNITY_SCRIPTS_URL/misc/alpine-install.func")"
   else
-    export FUNCTIONS_FILE_PATH="$(curl -fsSL "$COMMUNITY_SCRIPTS_URL/misc/install.func")"
+    export FUNCTIONS_FILE_PATH="$(curl -vfsSL "$COMMUNITY_SCRIPTS_URL/misc/install.func")"
   fi
 
   # Core exports for install.func
@@ -4850,7 +4849,7 @@ PROFILE
   set +Eeuo pipefail # Disable ALL error handling temporarily
   trap - ERR         # Remove ERR trap completely
 
-  lxc-attach -n "$CTID" -- bash -c "$(curl -fsSL "$COMMUNITY_SCRIPTS_URL/install/${var_install}.sh")"
+  lxc-attach -n "$CTID" -- bash -c "$(curl -vfsSL "$COMMUNITY_SCRIPTS_URL/install/${var_install}.sh")"
   local lxc_exit=$?
 
   set -Eeuo pipefail       # Re-enable error handling
@@ -5172,7 +5171,7 @@ PROFILE
           set +Eeuo pipefail
           trap - ERR
           local _LXC_CAPTURE_LOG="/tmp/.install-capture-${SESSION_ID}.log"
-          lxc-attach -n "$CTID" -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/EsBaTix/ProxmoxVED/main/install/${var_install}.sh)" 2>&1 | tee "$_LXC_CAPTURE_LOG"
+          lxc-attach -n "$CTID" -- bash -c "$(curl -vfsSL https://raw.githubusercontent.com/EsBaTix/ProxmoxVED/main/install/${var_install}.sh)" 2>&1 | tee "$_LXC_CAPTURE_LOG"
           local apt_retry_exit=${PIPESTATUS[0]}
           set -Eeuo pipefail
           trap 'error_handler' ERR

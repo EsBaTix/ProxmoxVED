@@ -18,10 +18,20 @@ $STD apt install -y \
   python3 python3-pip
 msg_ok "Installed Dependencies"
 
+msg_info "Creating Anki User"
+useradd -m -s /bin/bash anki
+msg_ok "Created Anki User"
 
-#msg_info "Creating Anki User"
-#useradd -m -s /bin/bash anki
-#msg_ok "Created Anki User"
+msg_info "Installing Anki"
+mkdir -p /opt/anki/
+$STD runuser -u hermes -- \
+  python3 -m venv /opt/anki/venv && \
+  /opt/anki/venv/bin/pip install anki
+cat <<EOF >/opt/anki/.env
+SYNC_USER1=test:test
+EOF
+chown -R anki:anki /opt/anki/
+msg_ok "Installed Anki"
 
 msg_info "Creating Service"
 cat <<EOF >/etc/systemd/system/anki-sync-server.service
@@ -33,11 +43,15 @@ Wants=network-online.target
 [Service]
 Type=simple
 UMask=0077
-ExecStart=python3 -m anki.syncserver
+ExecStart=/opt/anki/venv/bin/python -m anki.syncserver
 Restart=on-failure
 RestartSec=5
 ProtectProc=invisible
 ProcSubset=pid
+User=anki
+Group=anki
+EnvironmentFile=/opt/anki/.env
+WorkingDirectory=/opt/anki
 
 [Install]
 WantedBy=multi-user.target

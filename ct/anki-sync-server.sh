@@ -5,7 +5,7 @@ source <(curl -fsSL https://raw.githubusercontent.com/EsBaTix/ProxmoxVED/main/mi
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://docs.ankiweb.net/sync-server.html
 
-APP="Anki Sync Server"
+APP="anki-sync-server"
 var_tags="${var_tags:-anki}"
 var_cpu="${var_cpu:-1}"
 var_ram="${var_ram:-512}"
@@ -13,7 +13,6 @@ var_disk="${var_disk:-4}"
 var_os="${var_os:-debian}"
 var_version="${var_version:-13}"
 var_unprivileged="${var_unprivileged:-1}"
-var_hostname="anki-sync-server"
 
 header_info "$APP"
 variables

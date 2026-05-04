@@ -24,7 +24,7 @@ msg_ok "Created Anki User"
 
 msg_info "Installing Anki"
 mkdir -p /opt/anki/
-$STD runuser -u hermes -- \
+$STD runuser -u anki -- \
   python3 -m venv /opt/anki/venv && \
   /opt/anki/venv/bin/pip install anki
 cat <<EOF >/opt/anki/.env

@@ -24,13 +24,13 @@ msg_ok "Created Anki User"
 
 msg_info "Installing Anki"
 mkdir -p /opt/anki/
-$STD runuser -u anki -- \
-  python3 -m venv /opt/anki/venv && \
-  /opt/anki/venv/bin/pip install anki
 cat <<EOF >/opt/anki/.env
 SYNC_USER1=test:test
 EOF
 chown -R anki:anki /opt/anki/
+$STD runuser -u anki -- \
+  python3 -m venv /opt/anki/venv && \
+  /opt/anki/venv/bin/pip install anki
 msg_ok "Installed Anki"
 
 msg_info "Creating Service"

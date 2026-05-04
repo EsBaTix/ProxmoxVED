@@ -24,8 +24,10 @@ msg_ok "Created Anki User"
 
 msg_info "Installing Anki"
 mkdir -p /opt/anki/
+mkdir -p /opt/anki/syncbase
 cat <<EOF >/opt/anki/.env
-SYNC_USER1=test:test
+SYNC_BASE=/opt/anki/syncbase
+SYNC_USER1=sync:sync
 EOF
 chown -R anki:anki /opt/anki/
 $STD runuser -u anki -- \

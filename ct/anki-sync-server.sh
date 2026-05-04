@@ -33,7 +33,8 @@ function update_script() {
   msg_ok "Stopped Services"
 
   msg_info "Updating ${APP}"
-  $STD pip install --upgrade anki
+  $STD runuser -u anki -- \
+    /opt/anki/venv/bin/pip install --upgrade anki
   msg_ok "Updated ${APP}"
 
   msg_info "Starting ${APP}"
